@@ -1,0 +1,33 @@
+.header {
+    width: 100%;
+    background-color: #0f55b2;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 10px 50px;
+    box-sizing: border-box;
+    border-bottom: 2px solid #0f55b2;
+    box-shadow: 0 2px 10px #074390;
+    position: sticky;
+    top: 0;
+    position: fixed;
+    z-index: 1000;
+    left: 0;
+}
+
+body{
+    font-family: sans-serif;
+    background-image:url(images/paisagem\ natural\ com.png)
+}
+
+.product{
+    color: aliceblue;
+    width: 100px;
+  height: 100px;
+  background-color: #3498db;
+  position: fixed;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+
+}
