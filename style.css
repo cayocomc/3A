@@ -5,14 +5,20 @@
     font-family: Arial, Helvetica, sans-serif;
 }
 
+html, body {
+    height: 100%;
+}
+
 body {
-    background-color: #0F0F0F;
+    background-color: #0A0A0A;
     color: #FFFFFF;
+    display: flex;
+    flex-direction: column;
 }
 
 /* HEADER */
 header {
-    background-color: #4B0082;
+    background-color: #8B0000;
     padding: 20px;
     display: flex;
     justify-content: space-between;
@@ -21,6 +27,7 @@ header {
 
 header h1 {
     color: #FFFFFF;
+    letter-spacing: 2px;
 }
 
 nav a {
@@ -28,63 +35,92 @@ nav a {
     text-decoration: none;
     margin-left: 20px;
     transition: 0.3s;
+    font-weight: bold;
 }
 
 nav a:hover {
-    color: #8A2BE2;
+    opacity: 0.7;
 }
 
 /* HERO */
 .hero {
     text-align: center;
-    padding: 100px 20px;
+    padding: 120px 20px 60px 20px;
 }
 
 .hero h2 {
-    font-size: 2.5rem;
+    font-size: 2.8rem;
     margin-bottom: 20px;
 }
 
 .hero button {
-    background-color: #6A0DAD;
+    background-color: #8B0000;
     color: #FFFFFF;
     border: none;
-    padding: 12px 25px;
+    padding: 14px 30px;
     font-size: 1rem;
     cursor: pointer;
     transition: 0.3s;
 }
 
 .hero button:hover {
-    background-color: #8A2BE2;
+    background-color: #B22222;
 }
 
-/* CARDS */
+/* CARDS FLUTUANTES */
 .info {
     display: flex;
     justify-content: center;
-    gap: 20px;
+    gap: 30px;
     padding: 50px 20px;
     flex-wrap: wrap;
 }
 
 .card {
-    background-color: #1C1C1C;
-    padding: 30px;
-    width: 250px;
-    border-radius: 10px;
+    background-color: #1A1A1A;
+    padding: 40px;
+    width: 260px;
+    border-radius: 15px;
+    box-shadow: 0 10px 25px rgba(139, 0, 0, 0.5);
     transition: 0.3s;
 }
 
 .card:hover {
     transform: translateY(-10px);
-    background-color: #6A0DAD;
+    box-shadow: 0 15px 35px rgba(139, 0, 0, 0.8);
 }
 
-/* FOOTER */
+/* EVENTOS PAGE */
+.eventos {
+    flex: 1;
+    padding: 80px 20px;
+    text-align: center;
+}
+
+.eventos h2 {
+    font-size: 2.5rem;
+    margin-bottom: 40px;
+}
+
+.evento-card {
+    background-color: #1A1A1A;
+    padding: 30px;
+    margin: 20px auto;
+    width: 300px;
+    border-radius: 10px;
+    box-shadow: 0 8px 20px rgba(139, 0, 0, 0.6);
+    transition: 0.3s;
+}
+
+.evento-card:hover {
+    transform: scale(1.05);
+}
+
+/* FOOTER FIXO NO FINAL */
 footer {
-    background-color: #4B0082;
+    background-color: #8B0000;
     text-align: center;
     padding: 20px;
-    margin-top: 50px;
+    margin-top: auto;
+    color: #FFFFFF;
 }
