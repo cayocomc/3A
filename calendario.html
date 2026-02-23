@@ -49,13 +49,30 @@ fetch(url)
     const json = JSON.parse(data.substr(47).slice(0, -2));
     const rows = json.table.rows;
 
-    rows.forEach(row => {
-      eventos.push({
-        data: row.c[0]?.v || "",
-        titulo: row.c[1]?.v || "",
-        descricao: row.c[2]?.v || ""
-      });
-    });
+rows.forEach(row => {
+
+  let dataBruta = row.c[0]?.v || "";
+  let dataFormatada = "";
+
+  if (typeof dataBruta === "string" && dataBruta.startsWith("Date")) {
+    const partes = dataBruta.match(/\d+/g);
+    const ano = partes[0];
+    const mes = String(Number(partes[1]) + 1).padStart(2, "0");
+    const dia = String(partes[2]).padStart(2, "0");
+
+    dataFormatada = `${dia}/${mes}/${ano}`;
+  } else {
+    dataFormatada = dataBruta;
+  }
+
+  eventos.push({
+    data: dataFormatada,
+    titulo: row.c[1]?.v || "",
+    descricao: row.c[2]?.v || ""
+  });
+
+});
+
 
     renderizarEventos(eventos);
   });
@@ -99,5 +116,6 @@ document.getElementById("filtroData").addEventListener("input", function() {
 
 </body>
 </html>
+
 
 
