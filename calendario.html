@@ -1,0 +1,99 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Calendário - Terceirão 2026</title>
+  <link rel="stylesheet" href="style.css">
+</head>
+
+<body>
+
+<header>
+  <h1>3º Ano 2026</h1>
+  <nav>
+    <a href="eventos.html">Eventos</a>
+    <a href="calendario.html">Calendário</a>
+    <a href="https://www.instagram.com/3a_2k26jr" target="_blank">Instagram</a>
+  </nav>
+</header>
+
+<section class="eventos">
+  <h2>Calendário de Eventos</h2>
+
+  <div class="filtros">
+    <input type="text" id="busca" placeholder="Buscar evento...">
+    <input type="month" id="filtroData">
+  </div>
+
+  <div id="listaEventos" class="cards-container"></div>
+</section>
+
+<footer>
+  <div class="footer-content">
+    <p><strong>Endereço:</strong> Alameda da Saudade nº30, Sala 1</p>
+    <p>© 2026 Terceirão - Todos os direitos reservados.</p>
+  </div>
+</footer>
+
+<script>
+const url = "https://docs.google.com/spreadsheets/d/1Kwh0QZIesB1CVOkZY8uh648mxWzvFx7AZ91ziyMQIQ0/gviz/tq?tqx=out:json";
+
+let eventos = [];
+
+fetch(url)
+  .then(res => res.text())
+  .then(data => {
+    const json = JSON.parse(data.substr(47).slice(0, -2));
+    const rows = json.table.rows;
+
+    rows.forEach(row => {
+      eventos.push({
+        data: row.c[0]?.v || "",
+        titulo: row.c[1]?.v || "",
+        descricao: row.c[2]?.v || ""
+      });
+    });
+
+    renderizarEventos(eventos);
+  });
+
+function renderizarEventos(lista) {
+  const container = document.getElementById("listaEventos");
+  container.innerHTML = "";
+
+  lista.forEach(ev => {
+    const card = document.createElement("div");
+    card.className = "evento-card";
+
+    card.innerHTML = `
+      <h3>${ev.titulo}</h3>
+      <p><strong>Data:</strong> ${ev.data}</p>
+      <p>${ev.descricao}</p>
+    `;
+
+    container.appendChild(card);
+  });
+}
+
+document.getElementById("busca").addEventListener("input", function() {
+  const termo = this.value.toLowerCase();
+  const filtrados = eventos.filter(ev =>
+    ev.titulo.toLowerCase().includes(termo)
+  );
+  renderizarEventos(filtrados);
+});
+
+document.getElementById("filtroData").addEventListener("input", function() {
+  const mesSelecionado = this.value;
+  if (!mesSelecionado) return renderizarEventos(eventos);
+
+  const filtrados = eventos.filter(ev =>
+    ev.data.includes(mesSelecionado)
+  );
+  renderizarEventos(filtrados);
+});
+</script>
+
+</body>
+</html>
