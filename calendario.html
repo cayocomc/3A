@@ -44,39 +44,47 @@ const url = "https://docs.google.com/spreadsheets/d/1Kwh0QZIesB1CVOkZY8uh648mxWz
 
 let eventos = [];
 
-fetch(url)
-  .then(res => res.text())
-  .then(data => {
-    const json = JSON.parse(data.substr(47).slice(0, -2));
-    const rows = json.table.rows;
+// 🔁 Função que carrega os dados
+function carregarEventos() {
+  fetch(url)
+    .then(res => res.text())
+    .then(data => {
+      const json = JSON.parse(data.substr(47).slice(0, -2));
+      const rows = json.table.rows;
 
-rows.forEach(row => {
+      eventos = []; // limpa antes de atualizar
 
-  let dataBruta = row.c[0]?.v || "";
-  let dataFormatada = "";
+      rows.forEach(row => {
+        let dataBruta = row.c[0]?.v || "";
+        let dataFormatada = "";
 
-  if (typeof dataBruta === "string" && dataBruta.startsWith("Date")) {
-    const partes = dataBruta.match(/\d+/g);
-    const ano = partes[0];
-    const mes = String(Number(partes[1]) + 1).padStart(2, "0");
-    const dia = String(partes[2]).padStart(2, "0");
+        if (typeof dataBruta === "string" && dataBruta.startsWith("Date")) {
+          const partes = dataBruta.match(/\d+/g);
+          const ano = partes[0];
+          const mes = String(Number(partes[1]) + 1).padStart(2, "0");
+          const dia = String(partes[2]).padStart(2, "0");
 
-    dataFormatada = `${dia}/${mes}/${ano}`;
-  } else {
-    dataFormatada = dataBruta;
-  }
+          dataFormatada = `${dia}/${mes}/${ano}`;
+        } else {
+          dataFormatada = dataBruta;
+        }
 
-  eventos.push({
-    data: dataFormatada,
-    titulo: row.c[1]?.v || "",
-    descricao: row.c[2]?.v || ""
-  });
+        eventos.push({
+          data: dataFormatada,
+          titulo: row.c[1]?.v || "",
+          descricao: row.c[2]?.v || ""
+        });
+      });
 
-});
+      renderizarEventos(eventos);
+    });
+}
 
+// 🚀 Carrega quando abre a página
+carregarEventos();
 
-    renderizarEventos(eventos);
-  });
+// 🔄 Atualiza automaticamente a cada 10 segundos
+setInterval(carregarEventos, 10000);
 
 function renderizarEventos(lista) {
   const container = document.getElementById("listaEventos");
@@ -115,8 +123,10 @@ document.getElementById("filtroData").addEventListener("input", function() {
 });
 </script>
 
+
 </body>
 </html>
+
 
 
 
