@@ -93,8 +93,28 @@
     </div>
 </footer>
 
+    <script>
+  // Simula carregamento
+  window.addEventListener('load', function() {
+    const loader = document.getElementById('loader');
+    const content = document.getElementById('content');
+
+    // Força o loader a ficar 3 segundos
+    setTimeout(() => {
+      loader.classList.add('hidden');
+
+      // Esconde o loader depois de meio segundo e mostra o conteúdo
+      setTimeout(() => {
+        loader.style.display = 'none';
+        content.style.display = 'block';
+      }, 500);
+    }, 1000); // 3000ms = 3 segundos
+  });
+</script>
+
 </body>
 </html>
+
 
 
 
