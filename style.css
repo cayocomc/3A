@@ -217,7 +217,11 @@ nav a:hover {
 
 .evento-card a,
 .evento-card a:visited {
+
     color: var(--link-color);
+
+    color: #FFFFFF;
+
     font-weight: bold;
 }
 
@@ -279,6 +283,7 @@ footer {
 .filtros input::placeholder {
   color: #999;
 }
+
 
 
 
