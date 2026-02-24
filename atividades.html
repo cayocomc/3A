@@ -45,6 +45,25 @@ const url = "https://docs.google.com/spreadsheets/d/1KJdIijBsHn6NJFdfkkaXH9UZd3O
 
 let atividades = [];
 
+function formatarData(dataBruta) {
+  if (!dataBruta) return "";
+
+  if (typeof dataBruta === "string" && dataBruta.startsWith("Date")) {
+    const partes = dataBruta.match(/\d+/g);
+    if (!partes || partes.length < 3) return "";
+
+    const ano = partes[0];
+    const mes = String(Number(partes[1]) + 1).padStart(2, "0");
+    const dia = String(partes[2]).padStart(2, "0");
+
+    return `${dia}/${mes}/${ano}`;
+  }
+
+  if (typeof dataBruta === "string") return dataBruta;
+
+  return "";
+}
+
 // 🔁 Função que carrega os dados
 function carregarAtividades() {
   fetch(url)
@@ -56,24 +75,11 @@ function carregarAtividades() {
       atividades = []; // limpa antes de atualizar
 
       rows.forEach(row => {
-        let dataBruta = row.c[0]?.v || "";
-        let dataFormatada = "";
-
-        if (typeof dataBruta === "string" && dataBruta.startsWith("Date")) {
-          const partes = dataBruta.match(/\d+/g);
-          const ano = partes[0];
-          const mes = String(Number(partes[1]) + 1).padStart(2, "0");
-          const dia = String(partes[2]).padStart(2, "0");
-
-          dataFormatada = `${dia}/${mes}/${ano}`;
-        } else {
-          dataFormatada = dataBruta;
-        }
-
         atividades.push({
-          data: dataFormatada,
-          titulo: row.c[1]?.v || "",
-          descricao: row.c[2]?.v || ""
+          dataEntrega: formatarData(row.c[0]?.v),
+          atividade: row.c[1]?.v || "",
+          professor: row.c[2]?.v || "",
+          tema: row.c[3]?.v || ""
         });
       });
 
@@ -85,7 +91,7 @@ function carregarAtividades() {
 carregarAtividades();
 
 // 🔄 Atualiza automaticamente a cada 10 segundos
-setInterval(carregarAtividades, 1000);
+setInterval(carregarAtividades, 10000);
 
 function renderizarAtividades(lista) {
   const container = document.getElementById("listaAtividades");
@@ -96,9 +102,10 @@ function renderizarAtividades(lista) {
     card.className = "evento-card";
 
     card.innerHTML = `
-      <h3>${ev.titulo}</h3>
-      <p><strong>Data:</strong> ${ev.data}</p>
-      <p>${ev.descricao}</p>
+      <h3>${ev.atividade}</h3>
+      <p><strong>Data de entrega:</strong> ${ev.dataEntrega}</p>
+      <p><strong>Professor:</strong> ${ev.professor}</p>
+      <p><strong>Tema:</strong> ${ev.tema}</p>
     `;
 
     container.appendChild(card);
@@ -108,7 +115,9 @@ function renderizarAtividades(lista) {
 document.getElementById("busca").addEventListener("input", function() {
   const termo = this.value.toLowerCase();
   const filtrados = atividades.filter(ev =>
-    ev.titulo.toLowerCase().includes(termo)
+    ev.atividade.toLowerCase().includes(termo) ||
+    ev.professor.toLowerCase().includes(termo) ||
+    ev.tema.toLowerCase().includes(termo)
   );
   renderizarAtividades(filtrados);
 });
@@ -117,8 +126,11 @@ document.getElementById("filtroData").addEventListener("input", function() {
   const mesSelecionado = this.value;
   if (!mesSelecionado) return renderizarAtividades(atividades);
 
+  const [ano, mes] = mesSelecionado.split("-");
+  const filtroFormatado = `${mes}/${ano}`;
+
   const filtrados = atividades.filter(ev =>
-    ev.data.includes(mesSelecionado)
+    ev.dataEntrega.includes(filtroFormatado)
   );
   renderizarAtividades(filtrados);
 });
@@ -127,7 +139,6 @@ document.getElementById("filtroData").addEventListener("input", function() {
 
 </body>
 </html>
-
 
 
 
