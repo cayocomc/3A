@@ -305,3 +305,64 @@ footer {
 .theme-toggle-button:hover {
     background-color: var(--primary-hover);
 }
+
+/* ================= LOGIN ================= */
+.login-wrapper {
+    flex: 1;
+    display: grid;
+    place-items: center;
+    padding: 40px 20px;
+}
+
+.login-card {
+    width: min(460px, 100%);
+    background-color: var(--surface-color);
+    padding: 36px;
+    border-radius: 18px;
+    box-shadow: 0 12px 30px rgba(91, 42, 134, 0.5);
+}
+
+.login-card h2 {
+    margin-bottom: 12px;
+}
+
+.login-card > p {
+    margin-bottom: 22px;
+}
+
+.login-form {
+    display: grid;
+    gap: 12px;
+}
+
+.login-form input {
+    border: none;
+    border-radius: 10px;
+    padding: 12px;
+    background-color: var(--bg-color);
+    color: var(--text-color);
+}
+
+.login-form .btn {
+    margin-top: 8px;
+    width: 100%;
+    border: none;
+    cursor: pointer;
+}
+
+.login-message {
+    min-height: 22px;
+    margin-top: 14px;
+    color: #ff8f8f;
+    font-weight: bold;
+}
+
+.login-message.success {
+    color: #8fffc3;
+}
+
+.login-hint {
+    margin-top: 14px;
+    font-size: 0.9rem;
+    opacity: 0.8;
+}
