@@ -194,6 +194,16 @@ nav a:hover {
     font-size: 0.95rem;
 }
 
+.evento-card a,
+.evento-card a:visited {
+    color: #FFFFFF;
+    font-weight: bold;
+}
+
+.evento-card a:hover {
+    opacity: 0.8;
+}
+
 .evento-card:hover {
     transform: translateY(-10px);
     box-shadow: 0 20px 50px rgba(91, 42, 134, 0.9);
@@ -248,5 +258,4 @@ footer {
 .filtros input::placeholder {
   color: #999;
 }
-
 
