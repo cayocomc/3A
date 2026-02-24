@@ -4,14 +4,14 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <link rel="icon" href="images/favicon.png" type="image/x-icon">
-  <title>Calendário - Terceiro A 2026</title>
+  <title>Atividades - Terceiro A 2026</title>
    <link rel="stylesheet" href="https://cayocomc.github.io/3A/style.css">
 </head>
 
 <body>
 
 <header>
-    <h1>3º A - Calendário 2026</h1>
+    <h1>3º A - Atividades 2026</h1>
   <nav>
     <a href="index.html">Início</a>
     <a href="eventos.html">Eventos</a>
@@ -23,14 +23,14 @@
 </header>
 
 <section class="eventos">
-  <h2>Calendário de Eventos</h2>
+  <h2>Atividades</h2>
 
   <div class="filtros">
-    <input type="text" id="busca" placeholder="Buscar evento...">
+    <input type="text" id="busca" placeholder="Buscar atividade...">
     <input type="month" id="filtroData">
   </div>
 
-  <div id="listaEventos" class="cards-container"></div>
+  <div id="listaAtividades" class="cards-container"></div>
 </section>
 
 <footer>
@@ -43,17 +43,17 @@
 <script>
 const url = "https://docs.google.com/spreadsheets/d/1Kwh0QZIesB1CVOkZY8uh648mxWzvFx7AZ91ziyMQIQ0/gviz/tq?tqx=out:json";
 
-let eventos = [];
+let atividades = [];
 
 // 🔁 Função que carrega os dados
-function carregarEventos() {
+function carregarAtividades() {
   fetch(url)
     .then(res => res.text())
     .then(data => {
       const json = JSON.parse(data.substr(47).slice(0, -2));
       const rows = json.table.rows;
 
-      eventos = []; // limpa antes de atualizar
+      atividades = []; // limpa antes de atualizar
 
       rows.forEach(row => {
         let dataBruta = row.c[0]?.v || "";
@@ -70,25 +70,25 @@ function carregarEventos() {
           dataFormatada = dataBruta;
         }
 
-        eventos.push({
+        atividades.push({
           data: dataFormatada,
           titulo: row.c[1]?.v || "",
           descricao: row.c[2]?.v || ""
         });
       });
 
-      renderizarEventos(eventos);
+      renderizarAtividades(atividades);
     });
 }
 
 // 🚀 Carrega quando abre a página
-carregarEventos();
+carregarAtividades();
 
 // 🔄 Atualiza automaticamente a cada 10 segundos
-setInterval(carregarEventos, 1000);
+setInterval(carregarAtividades, 1000);
 
-function renderizarEventos(lista) {
-  const container = document.getElementById("listaEventos");
+function renderizarAtividades(lista) {
+  const container = document.getElementById("listaAtividades");
   container.innerHTML = "";
 
   lista.forEach(ev => {
@@ -107,20 +107,20 @@ function renderizarEventos(lista) {
 
 document.getElementById("busca").addEventListener("input", function() {
   const termo = this.value.toLowerCase();
-  const filtrados = eventos.filter(ev =>
+  const filtrados = atividades.filter(ev =>
     ev.titulo.toLowerCase().includes(termo)
   );
-  renderizarEventos(filtrados);
+  renderizarAtividades(filtrados);
 });
 
 document.getElementById("filtroData").addEventListener("input", function() {
   const mesSelecionado = this.value;
-  if (!mesSelecionado) return renderizarEventos(eventos);
+  if (!mesSelecionado) return renderizarAtividades(atividades);
 
-  const filtrados = eventos.filter(ev =>
+  const filtrados = atividades.filter(ev =>
     ev.data.includes(mesSelecionado)
   );
-  renderizarEventos(filtrados);
+  renderizarAtividades(filtrados);
 });
 </script>
 
